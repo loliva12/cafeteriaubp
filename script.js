@@ -19,13 +19,15 @@ function loadProducts() {
     const productList = document.getElementById('product-list');
     products.forEach(product => {
         const productCard = document.createElement('div');
-        productCard.className = 'product-card col-4';
+        productCard.className = 'col mb-4';
         productCard.innerHTML = `
-            <img src="${product.image}" alt="${product.name}" class="product-image img-fluid">
-            <div class="product-info">
-                <h3>${product.name}</h3>
-                <p>$${product.price}</p>
-                <button onclick="addToCart(${product.id})">Agregar</button>
+            <div class="card h-100">
+                <img src="${product.image}" alt="${product.name}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">${product.name}</h5>
+                    <p class="card-text">$${product.price}</p>
+                    <button onclick="addToCart(${product.id})" class="btn btn-danger">Agregar</button>
+                </div>
             </div>
         `;
         productList.appendChild(productCard);
@@ -42,16 +44,22 @@ function addToCart(productId) {
 // Mostrar carrito
 function displayCart() {
     const cartContainer = document.getElementById('cart');
-    cartContainer.innerHTML = `<h2>Tu Pedido</h2>`;
+    cartContainer.classList.remove('d-none'); // Mostrar carrito si está oculto
+    cartContainer.innerHTML = `<h2 class="text-center">Tu Pedido</h2>`;
     let total = 0;
     cart.forEach(product => {
         total += product.price;
         cartContainer.innerHTML += `
-            <p>${product.name} - $${product.price}</p>
+            <div class="d-flex justify-content-between">
+                <p>${product.name}</p>
+                <p>$${product.price}</p>
+            </div>
         `;
     });
-    cartContainer.innerHTML += `<h3 class="total">Total: $${total}</h3>`;
-    cartContainer.innerHTML += `<button onclick="proceedToPayment()" class="btn btn-danger w-100">Pagar</button>`;
+    cartContainer.innerHTML += `
+        <h3 class="text-center">Total: $${total}</h3>
+        <button onclick="proceedToPayment()" class="btn btn-danger w-100 mt-3">Proceder al Pago</button>
+    `;
 }
 
 // Proceder al pago
